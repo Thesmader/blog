@@ -1,0 +1,60 @@
+---
+layout: "../../layouts/BlogPost.astro"
+title: Better image upload experience using isolates
+pubDate: Oct 18, 2022
+---
+
+### The problem
+At my day job I was working on the mobile application for the sellers on the
+marketplace. This application allows the sellers to add new products to their
+store, and the product needs to have a few images. So, the app has a multi-step
+form for adding the product to the store, and this form includes a step that asks
+the seller to upload images for the product.
+
+Usually the product has around 4-5 images. Earlier, the images picked by the user
+were stored in the state and at the end of the `Add Product` form, these images
+were uploaded sequentially. This works well for 4-5 images in a single product 
+form.
+
+Then, we had to introduce variants for the products. Now with variants, a single
+product could have multiple variants (a product with multiple sizes, colors).
+With this feature, now let's say a product has 5-6 variants and each of these variants
+can have upto 6 images. So the maximum image count for adding a single product 
+with variants was now `6 x number of variants`.
+
+Uploading all these images at once in the end of `Add Product` form was certainly
+not feasible. With a lot of sellers using mobile data, using this approach would
+lead to a bad experience for the seller. It would take quite a lot of time for
+uploading the images, and adds a huge single point of failure in the process.
+
+### The solution
+As you might have guessed from the title, I used isolates to solve this problem.
+In Dart, concurrency is handled using isolates. Let's see how the solution works.
+
+Earlier, the `Add Product` form had a single step for picking the images. With
+variants, now there was a step to add details for the variants which also allows
+the seller to pick images for each variant.
+
+For the solution, as soon as the seller picks images for a single variant, the picked
+images are converted into a list of bytes representing the image data. Then this
+data is passed as an argument to a function that runs in a separate isolate, which
+is spawned when the seller navigates to the `Add Product` form. 
+
+Since this upload process is now happening in a separate thread, it doesn't block the execution in
+the main thread, and the seller can continue working with the other variants
+while the images are being uploaded to the server. This provides a much better
+experience to the seller since now they can easily keep editing the form, while
+the image uploads are happening in parallel. By the time, the seller is done editing
+the form, the images are uploaded already and they can proceed to submit the form.
+
+![Flowchart for the solution](/assets/image_isolate.svg)
+
+### Taking it further
+With variants it was also likely that a few of the images picked by the sellers
+might be the same across all variants. It doesn't make sense to upload the same
+image more than once, so adding a simple in-memory cache to keep track of the images
+being uploaded helped with this. To achieve this, a simple map keeps track of
+the uploaded images with the local file path of the image being the key and the
+url for the uploaded image as the value. When an image is picked, if the file path
+exists as a key in this map, the value of this key is used directly instead of
+uploading the image again to the server.

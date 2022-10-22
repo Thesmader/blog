@@ -36,7 +36,7 @@ const {
 	<body>
 		<Header />
 		<main>
-			<article>
+			<article class="text-justify">
 				{heroImage && (
 					<img
 						width={720}
@@ -45,7 +45,7 @@ const {
 						alt=""
 					/>
 				)}
-				<h1 class="title">{title}</h1>
+				<h1 class="title text-left">{title}</h1>
 				{pubDate && <time>{pubDate}</time>}
 				{updatedDate && <div>Last updated on <time>{updatedDate}</time></div>}
 				<hr/>
