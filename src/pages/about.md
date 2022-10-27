@@ -1,7 +1,7 @@
 ---
 layout: "../layouts/about.astro"
 title: "About Me"
-description: "Lorem ipsum dolor sit amet"
+description: "Smarak Das"
 updatedDate: "Oct 27, 2022"
 heroImage: "assets/me.webp"
 ---
