@@ -13,10 +13,10 @@
   }
   article {
     margin: auto;
-    @apply prose;
     @apply max-w-5xl;
-    @apply dark:prose-invert;
+    @apply prose-invert;
     @apply prose-code:text-black;
+    @apply md:prose-lg;
   }
 }
 
