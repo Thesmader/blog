@@ -7,17 +7,21 @@
     font-family: Inter, system-ui, sans-serif;
   }
   body {
-    @apply mx-auto;
-    @apply max-w-prose;
+    color: #d8d8d8;
+    margin: auto;
+    @apply max-w-4xl;
   }
   article {
+    margin: auto;
     @apply prose;
+    @apply max-w-5xl;
+    @apply dark:prose-invert;
+    @apply prose-code:text-black;
   }
 }
 
 body {
-  /* max-width: 90ch; */
-  /* margin: auto; */
+  background-color: #171a21;
   padding-right: 1rem;
   padding-left: 1rem;
   overflow-wrap: break-word;
