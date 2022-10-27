@@ -16,7 +16,7 @@
     @apply max-w-5xl;
     @apply prose-invert;
     @apply prose-code:text-black;
-    @apply md:prose-lg;
+    @apply prose-lg;
   }
 }
 
