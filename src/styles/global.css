@@ -9,14 +9,13 @@
   body {
     color: #d8d8d8;
     margin: auto;
-    @apply max-w-4xl;
   }
   article {
     margin: auto;
-    @apply max-w-5xl;
     @apply prose-invert;
     @apply prose-code:text-black;
     @apply prose-lg;
+    @apply max-w-4xl;
   }
 }
 
